@@ -1,38 +1,34 @@
 const cardsData = [
-  { id: 1, pairId: 1, bg: "kersticon.png", content: "Santo Stefano - La Vigilia di Natale" },
-  { id: 2, pairId: 1, bg: "kersticon.png", content: "2" },
-  { id: 3, pairId: 2, bg: "kersticon.png", content: "🎄 + 🧦" },
-  { id: 4, pairId: 2, bg: "kersticon.png", content: "La mattina di Natale" },
-  { id: 5, pairId: 3, bg: "kersticon.png", content: "👵 + 🧹" },
-  { id: 6, pairId: 3, bg: "kersticon.png", content: "La Befana" },
-  { id: 7, pairId: 4, bg: "kersticon2.png", content: "Santo Stefano + La Befana" },
-  { id: 8, pairId: 4, bg: "kersticon2.png", content: "32" },
-  { id: 9, pairId: 5, bg: "kersticon2.png", content: "Natale - Capodanno" },
-  { id: 10, pairId: 5, bg: "kersticon2.png", content: "24" },
-  { id: 11, pairId: 6, bg: "kersticon2.png", content: "Compleanno del vostro insegnante" },
-  { id: 12, pairId: 6, bg: "kersticon2.png", content: "3 di gennaio" },
-  { id: 13, pairId: 7, bg: "kersticon2.png", content: "🎅 + 🎁" },
-  { id: 14, pairId: 7, bg: "kersticon2.png", content: "Babbo Natale" },
-  { id: 15, pairId: 8, bg: "kersticon2.png", content: "🎆 + 🥂" },
-  { id: 16, pairId: 8, bg: "kersticon2.png", content: "Capodanno" },
-  { id: 17, pairId: 9, bg: "kersticon2.png", content: "San Silvestro - Natale" },
-  { id: 18, pairId: 9, bg: "kersticon2.png", content: "6" },
-  { id: 19, pairId: 10, bg: "kersticon2.png", content: "🎁 + 🎟️" },
-  { id: 20, pairId: 10, bg: "kersticon2.png", content: "La Tombola di Natale" }
+  { id: 1, pairId: 1, bg: "lepel.png", content: "Lepel" },
+  { id: 2, pairId: 1, bg: "lepel.png", content: "Cucchiaio" },
+  { id: 3, pairId: 2, bg: "bord.png", content: "Bord" },
+  { id: 4, pairId: 2, bg: "bord.png", content: "Piatto" },
+  { id: 5, pairId: 3, bg: "servet.png", content: "Servet" },
+  { id: 6, pairId: 3, bg: "servet.png", content: "Tovagliolo" },
+  { id: 7, pairId: 4, bg: "glas.png", content: "Glas" },
+  { id: 8, pairId: 4, bg: "glas.png", content: "Bicchiere" },
+  { id: 9, pairId: 5, bg: "panettone.png", content: "Panettone" },
+  { id: 10, pairId: 5, bg: "panettone.png", content: "Panettone" },
+  { id: 11, pairId: 6, bg: "mes.png", content: "Mes" },
+  { id: 12, pairId: 6, bg: "mes.png", content: "Coltello" },
+  { id: 13, pairId: 7, bg: "vork.png", content: "Vork" },
+  { id: 14, pairId: 7, bg: "vork.png", content: "Forchetta" },
+  { id: 15, pairId: 8, bg: "tafel.png", content: "Tafel" },
+  { id: 16, pairId: 8, bg: "tafel.png", content: "Tavolo" },
+  { id: 17, pairId: 9, bg: "wijn.png", content: "Wijn" },
+  { id: 18, pairId: 9, bg: "wijn.png", content: "Vino" },
+  { id: 19, pairId: 10, bg: "kaars.png", content: "Kaars" },
+  { id: 20, pairId: 10, bg: "kaars.png", content: "Candela" }
 ];
 
 let flippedCards = [];
 let matchedPairs = 0;
-let boardLocked = false;
 
 function setupGame() {
   const shuffledCards = shuffle([...cardsData]);
-  const gameBoard = document.getElementById("game-board");
-  gameBoard.innerHTML = "";
-  document.getElementById("progress").style.width = "0%";
+  document.getElementById("game-board").innerHTML = "";
   flippedCards = [];
   matchedPairs = 0;
-  boardLocked = false;
 
   shuffledCards.forEach(createCard);
 }
@@ -57,13 +53,12 @@ function createCard(cardData) {
 }
 
 function flipCard(card, cardData) {
-  if (boardLocked || card.classList.contains("flipped") || card.classList.contains("matched")) return;
+  if (flippedCards.length >= 2 || card.classList.contains("flipped")) return;
 
   card.classList.add("flipped");
   flippedCards.push({ card, cardData });
 
   if (flippedCards.length === 2) {
-    boardLocked = true;
     setTimeout(checkMatch, 800);
   }
 }
@@ -75,28 +70,16 @@ function checkMatch() {
     card1.card.classList.add("matched");
     card2.card.classList.add("matched");
     matchedPairs++;
-    console.log(`Matched pairs: ${matchedPairs}`);
-    updateProgressBar();
   } else {
     card1.card.classList.remove("flipped");
     card2.card.classList.remove("flipped");
   }
 
   flippedCards = [];
-  boardLocked = false;
 
   if (matchedPairs === 10) {
-    endGame();
+    document.getElementById("end-screen").style.display = "block";
   }
-}
-
-function updateProgressBar() {
-  const progress = (matchedPairs / 10) * 100;
-  document.getElementById("progress").style.width = `${progress}%`;
-}
-
-function endGame() {
-  alert("🎉 Alle paren gevonden!");
 }
 
 function shuffle(array) {
@@ -106,5 +89,10 @@ function shuffle(array) {
   }
   return array;
 }
+
+document.getElementById("restart-btn-end").addEventListener("click", () => {
+  document.getElementById("end-screen").style.display = "none";
+  setupGame();
+});
 
 setupGame();
