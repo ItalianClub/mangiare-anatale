@@ -1,60 +1,103 @@
+/* Algemene styling */
 body {
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(180deg, #fffaf0, #ffffff);
+  background: linear-gradient(180deg, #fffaf0, #ffffff); /* Subtiele kerstachtige overgang */
   color: #333;
   text-align: center;
   padding: 20px;
+  margin: 0;
 }
 
-.title {
+h1.title {
   font-family: 'Lust Script', serif;
   font-size: clamp(2.5rem, 5vw, 3rem);
   color: #9c1925;
   margin-bottom: 10px;
 }
 
-.subtitle {
+p.subtitle {
   font-size: 1.2rem;
   color: #555;
+  margin-bottom: 20px;
 }
 
+/* Adventskalender Grid */
 #advent-calendar {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr); /* 6 kolommen voor desktop */
   gap: 10px;
   margin: 20px auto;
   max-width: 600px;
 }
 
+/* Luikjes Stijl */
 .advent-door {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  background-color: #9c1925;
+  aspect-ratio: 1 / 1; /* Vierkant luikje */
+  background-color: #9c1925; /* Rood als kerstkleur */
   color: white;
   font-family: 'Montserrat', sans-serif;
   font-size: 1.5rem;
   font-weight: bold;
-  border: 2px solid #fff;
+  border: 2px solid #fff; /* Witte rand */
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+/* Hover-effect voor een speelsere interactie */
+.advent-door:hover {
+  transform: scale(1.05); /* Vergroot lichtjes bij hover */
+}
+
+/* Geopend luikje */
 .advent-door.opened {
-  background-color: #fff;
-  color: #9c1925;
+  background-color: #fff; /* Wit bij geopend */
+  color: #9c1925; /* Rood tekstkleur */
+  transform: rotateY(180deg); /* Flip-animatie */
 }
 
+/* Inhoud van het luikje */
 .advent-content {
-  display: none;
+  display: none; /* Verberg standaard */
   font-size: 1rem;
   text-align: center;
 }
 
 .advent-door.opened .advent-content {
-  display: block;
+  display: block; /* Toon inhoud bij geopend luikje */
 }
-  
+
+/* Dagnummer binnen het luikje */
+.day-number {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+/* Responsief ontwerp */
+@media (max-width: 768px) {
+  #advent-calendar {
+    grid-template-columns: repeat(4, 1fr); /* 4 kolommen voor tablets */
+  }
+
+  .advent-door {
+    font-size: 1.2rem; /* Kleinere tekst op kleinere schermen */
+  }
+}
+
+@media (max-width: 480px) {
+  #advent-calendar {
+    grid-template-columns: repeat(3, 1fr); /* 3 kolommen voor mobiele apparaten */
+  }
+
+  .advent-door {
+    font-size: 1rem; /* Nog kleinere tekst voor compact ontwerp */
+  }
+}
