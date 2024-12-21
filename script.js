@@ -1,98 +1,61 @@
-const cardsData = [
-  { id: 1, pairId: 1, bg: "lepel.png", content: "Lepel" },
-  { id: 2, pairId: 1, bg: "lepel.png", content: "Cucchiaio" },
-  { id: 3, pairId: 2, bg: "bord.png", content: "Bord" },
-  { id: 4, pairId: 2, bg: "bord.png", content: "Piatto" },
-  { id: 5, pairId: 3, bg: "servet.png", content: "Servet" },
-  { id: 6, pairId: 3, bg: "servet.png", content: "Tovagliolo" },
-  { id: 7, pairId: 4, bg: "glas.png", content: "Glas" },
-  { id: 8, pairId: 4, bg: "glas.png", content: "Bicchiere" },
-  { id: 9, pairId: 5, bg: "panettone.png", content: "Panettone" },
-  { id: 10, pairId: 5, bg: "panettone.png", content: "Panettone" },
-  { id: 11, pairId: 6, bg: "mes.png", content: "Mes" },
-  { id: 12, pairId: 6, bg: "mes.png", content: "Coltello" },
-  { id: 13, pairId: 7, bg: "vork.png", content: "Vork" },
-  { id: 14, pairId: 7, bg: "vork.png", content: "Forchetta" },
-  { id: 15, pairId: 8, bg: "tafel.png", content: "Tafel" },
-  { id: 16, pairId: 8, bg: "tafel.png", content: "Tavolo" },
-  { id: 17, pairId: 9, bg: "wijn.png", content: "Wijn" },
-  { id: 18, pairId: 9, bg: "wijn.png", content: "Vino" },
-  { id: 19, pairId: 10, bg: "kaars.png", content: "Kaars" },
-  { id: 20, pairId: 10, bg: "kaars.png", content: "Candela" }
+const adventData = [
+  { day: 1, content: "Antipasto - Voorgerecht" },
+  { day: 2, content: "Primo piatto - Hoofdgerecht" },
+  { day: 3, content: "Secondo piatto - Tussengerecht" },
+  { day: 4, content: "Dolce - Nagerecht" },
+  { day: 5, content: "Zuppa - Soep" },
+  { day: 6, content: "Pesce - Vis" },
+  { day: 7, content: "Formaggio - Kaas" },
+  { day: 8, content: "Vino - Wijn" },
+  { day: 9, content: "Spumante - Mousserende wijn" },
+  { day: 10, content: "Caffè - Espresso" },
+  { day: 11, content: "Bere - Drinken" },
+  { day: 12, content: "Mangiare - Eten" },
+  { day: 13, content: "Preparare - Voorbereiden" },
+  { day: 14, content: "Tagliare - Snijden" },
+  { day: 15, content: "Cucinare - Koken" },
+  { day: 16, content: "Panettone - Zoet kerstbrood" },
+  { day: 17, content: "Torrone - Nougat" },
+  { day: 18, content: "Limoncello - Citroenlikeur" },
+  { day: 19, content: "Festa di Natale - Kerstfeest" },
+  { day: 20, content: "Auguri - Gelukkige feestdagen!" },
+  { day: 21, content: "Tavolo - Tafel" },
+  { day: 22, content: "Bicchiere - Glas" },
+  { day: 23, content: "Candela - Kaars" },
+  { day: 24, content: "Stella di Natale - Kerstster" }
 ];
 
-let flippedCards = [];
-let matchedPairs = 0;
+const adventCalendar = document.getElementById("advent-calendar");
+let openedDoors = 0;
 
-function setupGame() {
-  const shuffledCards = shuffle([...cardsData]);
-  document.getElementById("game-board").innerHTML = "";
-  flippedCards = [];
-  matchedPairs = 0;
+function setupAdventCalendar() {
+  adventData.forEach((item) => {
+    const door = document.createElement("div");
+    door.classList.add("advent-door");
 
-  shuffledCards.forEach(createCard);
+    door.innerHTML = `
+      <span class="day-number">${item.day}</span>
+      <div class="advent-content">${item.content}</div>
+    `;
+
+    door.addEventListener("click", () => {
+      if (!door.classList.contains("opened")) {
+        door.classList.add("opened");
+        openedDoors++;
+        checkAllDoorsOpened();
+      }
+    });
+
+    adventCalendar.appendChild(door);
+  });
 }
 
-function createCard(cardData) {
-  const card = document.createElement("div");
-  card.classList.add("card");
-
-  const front = document.createElement("div");
-  front.classList.add("front");
-  front.style.backgroundImage = `url(${cardData.bg})`;
-
-  const back = document.createElement("div");
-  back.classList.add("back");
-  back.textContent = cardData.content;
-
-  card.appendChild(front);
-  card.appendChild(back);
-  document.getElementById("game-board").appendChild(card);
-
-  card.addEventListener("click", () => flipCard(card, cardData));
-}
-
-function flipCard(card, cardData) {
-  if (flippedCards.length >= 2 || card.classList.contains("flipped")) return;
-
-  card.classList.add("flipped");
-  flippedCards.push({ card, cardData });
-
-  if (flippedCards.length === 2) {
-    setTimeout(checkMatch, 800);
+function checkAllDoorsOpened() {
+  if (openedDoors === adventData.length) {
+    setTimeout(() => {
+      alert("🎉 Alle luikjes zijn geopend! Buon Natale! 🎄");
+    }, 500);
   }
 }
 
-function checkMatch() {
-  const [card1, card2] = flippedCards;
-
-  if (card1.cardData.pairId === card2.cardData.pairId) {
-    card1.card.classList.add("matched");
-    card2.card.classList.add("matched");
-    matchedPairs++;
-  } else {
-    card1.card.classList.remove("flipped");
-    card2.card.classList.remove("flipped");
-  }
-
-  flippedCards = [];
-
-  if (matchedPairs === 10) {
-    document.getElementById("end-screen").style.display = "block";
-  }
-}
-
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
-document.getElementById("restart-btn-end").addEventListener("click", () => {
-  document.getElementById("end-screen").style.display = "none";
-  setupGame();
-});
-
-setupGame();
+setupAdventCalendar();
