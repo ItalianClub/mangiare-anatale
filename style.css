@@ -1,145 +1,60 @@
-/* Algemene styling */
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: #fffaf2; /* Warme kerstachtige achtergrond */
+  background: linear-gradient(180deg, #fffaf0, #ffffff);
   color: #333;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
-header {
   text-align: center;
   padding: 20px;
-}
-
-.logo {
-  width: 120px;
-  margin-bottom: 10px;
 }
 
 .title {
   font-family: 'Lust Script', serif;
   font-size: clamp(2.5rem, 5vw, 3rem);
   color: #9c1925;
+  margin-bottom: 10px;
 }
 
 .subtitle {
   font-size: 1.2rem;
-  margin-bottom: 20px;
-  color: #333333;
+  color: #555;
 }
 
-/* Progressiebalk */
-#progress-bar {
-  width: 90%;
-  max-width: 600px;
-  height: 20px;
-  background-color: #e6ded0;
-  border-radius: 10px;
-  margin: 20px auto;
-}
-
-#progress {
-  height: 100%;
-  width: 0;
-  background: linear-gradient(90deg, #e63946, #f4a261);
-  transition: width 0.5s ease;
-}
-
-/* Spelbord */
-#game-board {
+#advent-calendar {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 kaarten per rij */
-  gap: 15px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
   margin: 20px auto;
-  max-width: 800px;
-  padding: 10px;
+  max-width: 600px;
 }
 
-/* Kaarten */
-.card {
+.advent-door {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1; /* Vierkant */
-  border-radius: 10px;
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease, opacity 0.5s ease;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-}
-
-.card.flipped {
-  transform: rotateY(180deg);
-}
-
-.card.matched {
-  background-color: #ffecd1; /* Goudkleurig effect */
-  cursor: default;
-}
-
-.card .front {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
-}
-
-.card .back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  transform: rotateY(180deg);
+  aspect-ratio: 1 / 1;
   background-color: #9c1925;
   color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: 2px solid #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  font-size: clamp(0.8rem, 1.2vw, 1rem);
-  border-radius: 10px;
-}
-
-/* Herstartknoppen */
-#restart-btn,
-#restart-btn-end {
-  margin-top: 20px;
-  padding: 15px 25px;
-  background-color: #e63946;
-  color: white;
-  border: none;
-  border-radius: 8px;
   cursor: pointer;
-  font-size: 1.2rem;
-  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-/* Eindscherm */
-#end-screen {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  z-index: 10;
-}
-
-#end-screen h2 {
-  color: #e63946;
-  font-size: 2rem;
-}
-
-/* Footer */
-.footer-text {
-  font-size: 1.1rem;
-  margin-top: 30px;
+.advent-door.opened {
+  background-color: #fff;
   color: #9c1925;
 }
+
+.advent-content {
+  display: none;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.advent-door.opened .advent-content {
+  display: block;
+}
+  
